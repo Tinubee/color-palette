@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 function App() {
   const [colorCard, setColorCard] = useRecoilState(colorCardAtom);
   const onDragEnd = (event) => {
+    const { draggableId, destination, source } = event;
     console.log(event);
     if (event.combine) {
       if (
@@ -28,6 +29,15 @@ function App() {
             item !== event.draggableId && item !== event.combine.draggableId
         );
         return [...removeColors, combineColor];
+      });
+    }
+    if (!destination) return;
+    if (destination.index !== source.index) {
+      setColorCard((colors) => {
+        const copyColors = [...colors];
+        copyColors.splice(source.index, 1);
+        copyColors.splice(destination.index, 0, draggableId);
+        return copyColors;
       });
     }
   };
