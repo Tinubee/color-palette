@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "33efce9268b3fe9194a0",
-    "url": "/color-palette/static/js/main.33efce92.chunk.js"
+    "revision": "e24d8ba4132c66ac39bf",
+    "url": "/color-palette/static/js/main.e24d8ba4.chunk.js"
   },
   {
     "revision": "49a3d7cd0b3041d248ea",
@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "/color-palette/static/js/runtime~main.6d625f31.js"
   },
   {
-    "revision": "2a7863335fecb5c18a924db2badefa39",
+    "revision": "df1882a6e26d89f32dca4faaf6c90797",
     "url": "/color-palette/index.html"
   }
 ];
