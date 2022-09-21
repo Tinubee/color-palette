@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color linear 1s;
+  transition: background-color linear 0.5s;
 `;
 
 const Btn = styled.div`
@@ -31,12 +31,13 @@ const BtnText = styled.div`
 export const IconContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
+  margin-top: 20px;
   svg {
     cursor: pointer;
     &:hover {
       color: greenyellow;
-      font-size: 28px;
     }
+    transition: all linear 0.2s;
   }
 `;
 
