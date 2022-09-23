@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -39,6 +39,15 @@ const CardInfoContainer = styled(motion.div)`
   user-select: none;
 `;
 
+const CopyContainer = styled(CardInfoContainer)`
+  padding: 40px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: greenyellow;
+  font-size: 22px;
+  user-select: none;
+`;
+
 const ColorText = styled.div``;
 
 const boxVariants = {
@@ -50,6 +59,8 @@ const boxVariants = {
 
 function ColorCard({ color, color2, index }) {
   const setColorCard = useSetRecoilState(colorCardAtom);
+  const formRef = useRef();
+  const [isCopy, setIsCopy] = useState(false);
   const deleteColor = () => {
     setColorCard((colors) => {
       const deleteColor = color !== color2 ? `${color}+${color2}` : color;
@@ -68,6 +79,15 @@ function ColorCard({ color, color2, index }) {
     });
   };
 
+  const handleCopy = () => {
+    const text = formRef.current.innerText;
+    navigator.clipboard.writeText(text);
+    setIsCopy(true);
+    setInterval(() => {
+      setIsCopy(false);
+    }, 3000);
+  };
+
   return (
     <Draggable
       draggableId={color !== color2 ? `${color}+${color2}` : color}
@@ -84,24 +104,31 @@ function ColorCard({ color, color2, index }) {
           {...magic.draggableProps}
         >
           <CardBigBox variants={boxVariants} initial="start" whileHover="hover">
-            <CardInfoContainer>
-              <ColorText>
-                {color !== color2 ? `${color}+${color2}` : color}
-              </ColorText>
-              <IconContainer>
-                <FontAwesomeIcon icon={faCopy}></FontAwesomeIcon>
-                {color !== color2 ? (
+            {isCopy ? (
+              <CopyContainer>복사완료 !</CopyContainer>
+            ) : (
+              <CardInfoContainer>
+                <ColorText ref={formRef}>
+                  {color !== color2 ? `${color}+${color2}` : color}
+                </ColorText>
+                <IconContainer>
                   <FontAwesomeIcon
-                    onClick={separateColor}
-                    icon={faRepeat}
+                    onClick={handleCopy}
+                    icon={faCopy}
                   ></FontAwesomeIcon>
-                ) : null}
-                <FontAwesomeIcon
-                  onClick={deleteColor}
-                  icon={faTrashCan}
-                ></FontAwesomeIcon>
-              </IconContainer>
-            </CardInfoContainer>
+                  {color !== color2 ? (
+                    <FontAwesomeIcon
+                      onClick={separateColor}
+                      icon={faRepeat}
+                    ></FontAwesomeIcon>
+                  ) : null}
+                  <FontAwesomeIcon
+                    onClick={deleteColor}
+                    icon={faTrashCan}
+                  ></FontAwesomeIcon>
+                </IconContainer>
+              </CardInfoContainer>
+            )}
           </CardBigBox>
         </Card>
       )}
